@@ -6,17 +6,23 @@
 #    By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 12:24:55 by jrasoloh          #+#    #+#              #
-#    Updated: 2018/03/08 19:47:47 by jrasoloh         ###   ########.fr        #
+#    Updated: 2018/03/10 20:58:44 by jrasoloh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 		= minishell
 
-CFLAGS 		= -Wall -Wextra #-Werror
+CFLAGS 		= -Wall -Wextra -Werror
 
 INCLUDES 	= includes/minishell.h
 
 SRCS 		= srcs/main.c\
+			  srcs/builtin.c\
+			  srcs/ft_split.c\
+			  srcs/dir.c\
+			  srcs/dir_tools.c\
+			  srcs/variables.c\
+			  srcs/main_tools.c\
 			  srcs/tools.c\
 			  srcs/exe.c\
 			  srcs/error.c\

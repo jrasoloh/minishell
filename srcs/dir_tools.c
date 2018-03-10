@@ -1,37 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   dir_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/07 12:33:27 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/09 18:29:51 by jrasoloh         ###   ########.fr       */
+/*   Created: 2018/03/10 16:34:53 by jrasoloh          #+#    #+#             */
+/*   Updated: 2018/03/10 20:52:28 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void			ft_error_setenv(void)
+void			ft_chdir_env(char ***env, char *path, char *oldpwd)
 {
-	ft_putendl("setenv: Incorrect arguments");
-	ft_putendl("Usage: setenv [NAME=aA-_9] [VALUE]");
+	*env = ft_setenv(*env, "OLDPWD", oldpwd);
+	*env = ft_setenv(*env, "PWD", path);
 }
 
-void			ft_error_unsetenv(void)
+char			*ft_parent(char *str)
 {
-	ft_putendl("unsetenv: Incorrect arguments");
-	ft_putendl("Usage: unsetenv [NAME]");
-}
+	int			i;
+	int			end;
+	char		*res;
 
-void			ft_error_cd(void)
-{
-	ft_putendl("cd: too many arguments");
-	ft_putendl("Usage: cd [PATH]");
-}
-
-void			ft_error_chdir(char *str)
-{
-	ft_putstr("cd: no such file or directory: ");
-	ft_putendl(str);
+	i = 0;
+	end = ft_strlen(str) - 1;
+	if (str[end] == '/')
+		end--;
+	while (str[end] != '/')
+		end--;
+	res = (char *)malloc(sizeof(char) * (end + 1));
+	res[end] = '\0';
+	while (i < end)
+	{
+		res[i] = str[i];
+		i++;
+	}
+	return (res);
 }

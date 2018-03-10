@@ -6,7 +6,7 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/07 16:47:22 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/07 16:52:48 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/10 21:15:58 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static char			*ft_makeword(char *str, int *j)
 {
 	int				i;
 	char			*res;
-	
+
 	i = 0;
 	res = (char *)malloc(sizeof(char) * (ft_strlen_spec(&str[*j]) + 1));
 	while (ft_isspace(str[*j]) == 1)
@@ -79,7 +79,8 @@ char				**ft_split(char *str)
 	while (i < ft_countwords(str))
 	{
 		if (ft_isspace(str[j]) == 1)
-		{	res[i] = ft_makeword(str, &j);
+		{
+			res[i] = ft_makeword(str, &j);
 			i++;
 		}
 		else

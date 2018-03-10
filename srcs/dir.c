@@ -6,57 +6,61 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/07 17:03:31 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/09 17:58:46 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/10 21:04:39 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void			ft_chdir_env(char ***env, char *path, char *oldpwd)
-{
-	*env = ft_setenv(*env, "OLDPWD", oldpwd);	
-	*env = ft_setenv(*env, "PWD", path);
-}
-
-char			*ft_parent(char *str)
-{
-	int			i;
-	int			end;
-	char		*res;
-
-	i = 0;
-	end = ft_strlen(str) - 1;
-	if (str[end] == '/')
-		end--;
-	while (str[end] != '/')
-		end--;
-	res = (char *)malloc(sizeof(char) * (end + 1));
-	res[end] = '\0';
-	while (i < end)
-	{
-		res[i] = str[i];
-		i++;
-	}
-	return (res);
-}
-
 void			ft_chdir_three(char ***env, char **cmd)
 {
 	char		*path;
+	char		*oldpwd;
 
 	path = NULL;
+	oldpwd = NULL;
+	oldpwd = getcwd(NULL, 0);
 	path = ft_strjoin(getcwd(NULL, 0), "/");
 	path = ft_strjoin(ft_store(path, 1), cmd[1]);
 	if (chdir(path) == -1)
 		ft_error_chdir(cmd[1]);
+	else
+//		ft_chdir_env(env, getcwd(NULL, 0), oldpwd);
+		ft_chdir_env(env, path, oldpwd);
+	ft_store(NULL, -1);
 }
 
-void			ft_chdir_bis(char ***env, char **cmd)
+void			ft_chdir_bis_1(char ***env, char **cmd)
 {
 	char		*tmp;
 	char		*oldpwd;
 
 	tmp = NULL;
+	oldpwd = NULL;
+	oldpwd = getcwd(NULL, 0);
+	if (cmd[1][0] == '.' && cmd[1][1] == '.')
+	{
+		chdir(ft_parent(oldpwd));
+		ft_chdir_env(env, ft_parent(oldpwd), oldpwd);
+	}
+	else if (cmd[1][0] == '.' && cmd[1][1] != '.')
+		return ;
+	else if (ft_get_env(*env, "CDPATH") != NULL)
+	{
+		tmp = ft_store(ft_strjoin(ft_get_env(*env, "CDPATH"), "/"), 1);
+		tmp = ft_strjoin(tmp, cmd[1]);
+		if (chdir(tmp) != -1)
+			ft_chdir_env(env, tmp, oldpwd);
+	}
+	else
+		ft_chdir_three(env, cmd);
+	ft_store(NULL, -1);
+}
+
+void			ft_chdir_bis(char ***env, char **cmd)
+{
+	char		*oldpwd;
+
 	oldpwd = NULL;
 	oldpwd = getcwd(NULL, 0);
 	if (cmd[1][0] == '/')
@@ -79,23 +83,7 @@ void			ft_chdir_bis(char ***env, char **cmd)
 			}
 		}
 	}
-	else if (cmd[1][0] == '.' && cmd[1][1] == '.')
-	{
-		chdir(ft_parent(oldpwd));
-		ft_chdir_env(env, ft_parent(oldpwd), oldpwd);
-	}
-	else if (cmd[1][0] == '.' && cmd[1][1] != '.')
-		return ;
-	else if (ft_get_env(*env, "CDPATH") != NULL)
-	{
-		tmp = ft_store(ft_strjoin(ft_get_env(*env, "CDPATH"), "/"), 1);
-		tmp = ft_strjoin(tmp, cmd[1]);
-		if (chdir(tmp) != -1)
-			ft_chdir_env(env, tmp, oldpwd);
-	}
-	else
-		ft_chdir_three(env, cmd);
-	ft_store(NULL, -1);
+	ft_chdir_bis_1(env, cmd);
 }
 
 void			ft_chdir(char ***env, char **cmd)
@@ -113,8 +101,8 @@ void			ft_chdir(char ***env, char **cmd)
 		if ((tmp = ft_get_env(*env, "HOME")) != NULL)
 		{
 			chdir(tmp);
-			*env = ft_setenv(*env, "OLDPWD", oldpwd); 
-			*env = ft_setenv(*env, "PWD", tmp); 
+			*env = ft_setenv(*env, "OLDPWD", oldpwd);
+			*env = ft_setenv(*env, "PWD", tmp);
 		}
 		else
 			ft_putendl("HOME path is not defined");

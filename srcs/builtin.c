@@ -6,23 +6,11 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 14:14:51 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/08 14:26:24 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/10 21:02:20 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void				ft_env(char **env)
-{
-	int				i;
-
-	i = 0;
-	while (env[i])
-	{
-		ft_putendl(env[i]);
-		i++;
-	}
-}
 
 int					ft_get_env_size(char **env)
 {
@@ -75,13 +63,11 @@ char				**ft_copy_env_but_name(char **env, char *name, char *tmp)
 	while (env[j] && i < ft_get_env_size(env))
 	{
 		if (ft_strcmp(name_env, ft_strsub(env[j], 0, ft_strlen(name) + 1)))
-		{	
+		{
 			res[i] = env[j];
 			i++;
-//			j++;
 		}
-//		else
-			j++;
+		j++;
 	}
 	res[i] = tmp;
 	i++;
@@ -89,7 +75,7 @@ char				**ft_copy_env_but_name(char **env, char *name, char *tmp)
 	return (res);
 }
 
-char				**ft_add_to_env(char **env, char *name, char *tmp)
+char				**ft_add_to_env(char **env, char *tmp)
 {
 	int				i;
 	char			**res;
@@ -99,10 +85,8 @@ char				**ft_add_to_env(char **env, char *name, char *tmp)
 	while (env[i])
 	{
 		res[i] = env[i];
-	//	res[i] = ft_strdup(env[i]);
 		i++;
 	}
-//	res[i] = ft_strdup(tmp);
 	res[i] = tmp;
 	i++;
 	res[i] = NULL;
@@ -131,7 +115,7 @@ char				**ft_setenv(char **env, char *name, char *value)
 		if (ft_check_elt_in_env(env, name) == 1)
 			res = ft_copy_env_but_name(env, name, tmp2);
 		else
-			res = ft_add_to_env(env, name, tmp2);
+			res = ft_add_to_env(env, tmp2);
 	}
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 12:01:23 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/09 17:54:56 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/10 21:17:35 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,6 @@ char			**ft_copy_env(char **env)
 	return (res);
 }
 
-void			ft_free_word_tab(char **tab)
-{
-	int			i;
-
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-}
-
 char			*ft_get_env(char **env, char *elt)
 {
 	int			i;
@@ -77,7 +65,7 @@ char			*ft_get_env(char **env, char *elt)
 	{
 		if ((ft_strcmp(tmp, ft_strsub(env[i], 0, ft_strlen(elt) + 1))) == 0)
 		{
-			return(ft_strsub(env[i], ft_strlen(elt) + 1, ft_strlen(env[i])));
+			return (ft_strsub(env[i], ft_strlen(elt) + 1, ft_strlen(env[i])));
 		}
 		i++;
 	}
@@ -95,7 +83,7 @@ int				ft_check_elt_in_env(char **env, char *elt)
 	while (env[i])
 	{
 		if (!(ft_strcmp(tmp, ft_strsub(env[i], 0, ft_strlen(elt) + 1))))
-			return(1);
+			return (1);
 		i++;
 	}
 	free(tmp);

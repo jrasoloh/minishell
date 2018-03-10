@@ -6,7 +6,7 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 12:01:47 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/09 17:58:32 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/10 20:39:58 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@
 # define OK 1
 # define NO 0
 
+void			ft_add_shlvl(char ***env);
 int				ft_char_ok_env(char c);
 int				ft_check_elt_in_env(char **env, char *elt);
 void			ft_chdir(char ***env, char **cmd);
+void			ft_chdir_env(char ***env, char *path, char *oldpwd);
 char			**ft_copy_env(char **env);
 void			ft_echo(char **cmd);
 void			ft_env(char **env);
@@ -36,11 +38,15 @@ void			ft_execve(char **env, char **cmd);
 void			ft_free_word_tab(char **tab);
 char			*ft_get_env(char **env, char *elt);
 int				ft_get_env_size(char **env);
+void			ft_interpret(char ***cmd, char **env);
 int				ft_name_ok_env(char *name);
+char			*ft_parent(char *str);
 char			**ft_path_tab(char **env, char *path);
 void			ft_print_word_tab(char **tab);
+void			ft_prompt(char **env);
 char			**ft_split(char *str);
 char			*ft_store(char *str, int n);
+size_t			ft_stop_char(char *str);
 char			**ft_unsetenv(char **env, char *name);
 char			**ft_setenv(char **env, char *name, char *value);
 
