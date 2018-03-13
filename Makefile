@@ -6,7 +6,7 @@
 #    By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 12:24:55 by jrasoloh          #+#    #+#              #
-#    Updated: 2018/03/10 20:58:44 by jrasoloh         ###   ########.fr        #
+#    Updated: 2018/03/13 13:14:18 by jrasoloh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRCS 		= srcs/main.c\
 			  srcs/error.c\
 			  srcs/path.c\
 			  srcs/echo.c\
+			  srcs/tri.c\
 
 OBJ 		= $(SRCS:.c=.o)
 

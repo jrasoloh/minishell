@@ -6,7 +6,7 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 12:25:40 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/10 21:05:02 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/13 12:04:17 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,20 @@
 void		ft_main(char ***env, char **cmd)
 {
 	if (!ft_strcmp("cd", cmd[0]))
+	{
+		if (*env == NULL || **env == NULL)
+			ft_error_empty_env();
 		ft_chdir(env, cmd);
+	}
 	else if (!ft_strcmp("echo", cmd[0]))
 		ft_echo(cmd);
 	else if (!ft_strcmp("env", cmd[0]))
-		ft_print_word_tab(*env);
+	{
+		if (ft_get_env_size(cmd) == 1)
+			ft_print_word_tab(*env);
+		else
+			ft_execve(*env, &cmd[1]);
+	}
 	else if (!ft_strcmp("setenv", cmd[0]))
 	{
 		if (ft_get_env_size(cmd) == 3 && ft_name_ok_env(cmd[1]) == 1)

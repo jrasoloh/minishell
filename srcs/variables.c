@@ -6,7 +6,7 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/10 20:21:41 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/10 21:27:21 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/12 13:49:19 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char				*ft_store(char *str, int n)
 	if (str && n == 1)
 		tab[++i] = str;
 	if (n == -1)
-		while (i > -1)
+		while (i > -1 && tab[i])
 		{
 			free(tab[i]);
 			i--;
@@ -50,7 +50,7 @@ static void			ft_interpret_bis(char **cmd, char **env)
 	stop = 0;
 	if (ft_strlen(*cmd) > 1 && (*cmd)[0] == '$')
 	{
-		if ((stop = ft_stop_char(ft_store(*cmd, 1))) == ft_strlen(*cmd))
+		if ((stop = ft_stop_char(*cmd)) == ft_strlen(*cmd))
 		{
 			new = ft_strsub(*cmd, 1, ft_strlen(*cmd) - 1);
 			*cmd = ft_get_env(env, new);
@@ -62,17 +62,16 @@ static void			ft_interpret_bis(char **cmd, char **env)
 			*cmd = ft_strjoin(ft_get_env(env, new), tail);
 			free(tail);
 		}
-		free(new);
 	}
-	ft_store(NULL, -1);
+//	ft_store(NULL, -1);
 }
 
-void			ft_interpret(char ***cmd, char **env)
+void				ft_interpret(char ***cmd, char **env)
 {
-	int			i;
-	size_t		stop;
-	char		*new;
-	char		*tail;
+	int				i;
+	size_t			stop;
+	char			*new;
+	char			*tail;
 
 	new = NULL;
 	tail = NULL;
@@ -85,5 +84,5 @@ void			ft_interpret(char ***cmd, char **env)
 		ft_interpret_bis(&(*cmd)[i], env);
 		i++;
 	}
-	ft_store(NULL, -1);
+//	ft_store(NULL, -1);
 }

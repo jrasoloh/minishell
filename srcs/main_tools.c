@@ -6,7 +6,7 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/10 18:54:23 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/10 21:03:56 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/13 13:32:06 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,19 @@ void			ft_add_shlvl(char ***env)
 
 void			ft_prompt(char **env)
 {
+	char		*tmp;
+	char		*pwd;
+
+	tmp = NULL;
+	pwd = NULL;
 	if (env != NULL && *env != NULL && ft_get_env(env, "PWD") != NULL)
 	{
-		ft_putstr(getcwd(NULL, 0));
-		ft_putstr("> ");
+		if ((ft_get_env(env, "HOME") &&
+					!(ft_strcmp(getcwd(NULL, 0), ft_get_env(env, "HOME")))))
+				ft_putchar('~');
+		else
+			ft_putstr(getcwd(NULL, 0));
+		ft_putstr(" > ");
 	}
 	else
 		ft_putstr("$> ");

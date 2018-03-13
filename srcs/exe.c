@@ -6,7 +6,7 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 13:53:13 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/10 20:57:26 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/12 13:34:26 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,15 @@ void			ft_execve(char **env, char **cmd)
 {
 	char		*path;
 
-	path = NULL;
-	if ((path = ft_exe_path(cmd[0], ft_path_tab(env, "PATH"))) != NULL)
-		ft_fork(path, cmd, env);
+	if (ft_get_env(env, "PATH") != NULL)
+	{
+		path = NULL;
+		if ((path = ft_exe_path(cmd[0], ft_path_tab(env, "PATH"))) != NULL)
+		{
+			ft_fork(path, cmd, env);
+			free(path);
+		}
+	}
 	else if (access(cmd[0], F_OK) != -1)
 	{
 		if (access(cmd[0], X_OK) != -1)
@@ -40,4 +46,10 @@ void			ft_execve(char **env, char **cmd)
 	}
 	else
 		ft_putendl("Command not found");
+}
+
+void			ft_add_slash(char **str)
+{
+	if ((*str)[ft_strlen(*str) - 1] != '/')
+		ft_strjoin(*str, "/");
 }

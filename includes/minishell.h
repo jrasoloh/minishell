@@ -6,7 +6,7 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 12:01:47 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/10 20:39:58 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/13 11:54:05 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # define NO 0
 
 void			ft_add_shlvl(char ***env);
+void			ft_add_slash(char **str);
 int				ft_char_ok_env(char c);
 int				ft_check_elt_in_env(char **env, char *elt);
 void			ft_chdir(char ***env, char **cmd);
@@ -29,6 +30,7 @@ void			ft_chdir_env(char ***env, char *path, char *oldpwd);
 char			**ft_copy_env(char **env);
 void			ft_echo(char **cmd);
 void			ft_env(char **env);
+void			ft_error_empty_env(void);
 void			ft_error_setenv(void);
 void			ft_error_unsetenv(void);
 void			ft_error_cd(void);
@@ -44,6 +46,7 @@ char			*ft_parent(char *str);
 char			**ft_path_tab(char **env, char *path);
 void			ft_print_word_tab(char **tab);
 void			ft_prompt(char **env);
+char			*ft_shorten_path(char *path);
 char			**ft_split(char *str);
 char			*ft_store(char *str, int n);
 size_t			ft_stop_char(char *str);

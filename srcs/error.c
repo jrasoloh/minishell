@@ -6,7 +6,7 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/07 12:33:27 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/09 18:29:51 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/13 11:54:02 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,10 @@ void			ft_error_chdir(char *str)
 {
 	ft_putstr("cd: no such file or directory: ");
 	ft_putendl(str);
+}
+
+void			ft_error_empty_env(void)
+{
+	ft_putendl("Unable to process action. Env file is not defined.");
+	return ;
 }

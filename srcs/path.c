@@ -6,7 +6,7 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 15:41:18 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/10 21:17:48 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/12 11:15:09 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ char			*ft_exe_path(char *path, char **path_tab)
 		{
 			if (access(ft_strjoin(tmp, path), X_OK) != -1)
 			{
-				free(tmp);
 				return (ft_strjoin(tmp, path));
 			}
 			else
@@ -42,7 +41,6 @@ char			*ft_exe_path(char *path, char **path_tab)
 		}
 		i++;
 	}
-	free(tmp);
 	return (NULL);
 }
 
