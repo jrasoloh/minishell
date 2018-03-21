@@ -5,73 +5,49 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/10 18:54:23 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/13 13:32:06 by jrasoloh         ###   ########.fr       */
+/*   Created: 2018/03/21 14:35:56 by jrasoloh          #+#    #+#             */
+/*   Updated: 2018/03/21 17:09:37 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void			ft_env(char **env)
-{
-	int			i;
-
-	i = 0;
-	while (env[i])
-	{
-		ft_putendl(env[i]);
-		i++;
-	}
-}
-
-void			ft_add_shlvl(char ***env)
-{
-	char		*res;
-	char		*value;
-
-	res = (char *)malloc(sizeof(char) * (2));
-	res[1] = '\0';
-	value = NULL;
-	if ((value = ft_get_env(*env, "SHLVL")) != NULL)
-	{
-		res[0] = value[0] + 1;
-		*env = ft_setenv(*env, "SHLVL", res);
-	}
-	else
-		*env = ft_setenv(*env, "SHLVL", "2");
-	free(value);
-	free(res);
-	ft_store(NULL, -1);
-}
-
-void			ft_prompt(char **env)
+void			print_prompt(char **env)
 {
 	char		*tmp;
-	char		*pwd;
+	char		*home;
 
 	tmp = NULL;
-	pwd = NULL;
-	if (env != NULL && *env != NULL && ft_get_env(env, "PWD") != NULL)
+	home = NULL;
+	if (env != NULL && *env != NULL)
 	{
-		if ((ft_get_env(env, "HOME") &&
-					!(ft_strcmp(getcwd(NULL, 0), ft_get_env(env, "HOME")))))
-				ft_putchar('~');
+		tmp = getcwd(NULL, 0);
+		if (((home = get_env(env, "HOME")) != NULL)
+				&& !(ft_strcmp(tmp, home)))
+		{
+			ft_putchar('~');
+			free(home);
+		}
 		else
-			ft_putstr(getcwd(NULL, 0));
+			ft_putstr(tmp);
 		ft_putstr(" > ");
+		free(tmp);
 	}
 	else
 		ft_putstr("$> ");
 }
 
-void			ft_print_word_tab(char **tab)
+void			ft_exit(char **t_env, char **cmd_line, char **buf)
 {
-	int			i;
-
-	i = 0;
-	while (tab[i])
+	if (get_next_line(0, buf) == 0)
 	{
-		ft_putendl(tab[i]);
-		i++;
+		if (buf)
+			free_word_tab(buf);
+		free_word_tab(t_env);
+		if (cmd_line != NULL && *cmd_line != NULL)
+			free_word_tab(cmd_line);
+		else if (cmd_line != NULL)
+			free(cmd_line);
+		exit(0);
 	}
 }

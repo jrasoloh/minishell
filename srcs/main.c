@@ -5,86 +5,31 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/05 12:25:40 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/13 12:04:17 by jrasoloh         ###   ########.fr       */
+/*   Created: 2018/03/21 14:09:35 by jrasoloh          #+#    #+#             */
+/*   Updated: 2018/03/21 17:42:07 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void		ft_main(char ***env, char **cmd)
+void		main_part_one(char ***env, char **cmd)
 {
-	if (!ft_strcmp("cd", cmd[0]))
+	if (!ft_strcmp("setenv", cmd[0]))
 	{
-		if (*env == NULL || **env == NULL)
-			ft_error_empty_env();
-		ft_chdir(env, cmd);
-	}
-	else if (!ft_strcmp("echo", cmd[0]))
-		ft_echo(cmd);
-	else if (!ft_strcmp("env", cmd[0]))
-	{
-		if (ft_get_env_size(cmd) == 1)
-			ft_print_word_tab(*env);
+		if (get_env_size(cmd) == 3 && name_ok_env(cmd[1]) == 1)
+			*env = set_env(env, cmd[1], cmd[2]);
 		else
-			ft_execve(*env, &cmd[1]);
-	}
-	else if (!ft_strcmp("setenv", cmd[0]))
-	{
-		if (ft_get_env_size(cmd) == 3 && ft_name_ok_env(cmd[1]) == 1)
-			*env = ft_setenv(*env, cmd[1], cmd[2]);
-		else
-			ft_error_setenv();
+			error_setenv();
 	}
 	else if (!ft_strcmp("unsetenv", cmd[0]))
 	{
-		if (ft_get_env_size(cmd) == 2)
-			*env = ft_unsetenv(*env, cmd[1]);
+		if (get_env_size(cmd) == 2)
+			*env = unset_env(*env, cmd[1]);
 		else
-			ft_error_unsetenv();
+			error_unsetenv();
 	}
-	else
-		ft_execve(*env, cmd);
-}
-
-char		**ft_init_env(void)
-{
-	char	**t_env;
-
-	t_env = (char **)malloc(sizeof(char *) * (2));
-	t_env[0] = ft_strdup("SHVL=2");
-	t_env[1] = NULL;
-	return (t_env);
-}
-
-char		**ft_main_env(char **env, int ac, char **av)
-{
-	char	**t_env;
-
-	(void)ac;
-	(void)av;
-	t_env = NULL;
-	if (env == NULL || *env == NULL)
-		t_env = ft_init_env();
-	else
-	{
-		t_env = ft_copy_env(env);
-		ft_add_shlvl(&t_env);
-	}
-	return (t_env);
-}
-
-void		ft_exit(char **t_env, char **cmd_line, char **buf)
-{
-	if (get_next_line(0, buf) == 0)
-	{
-		ft_free_word_tab(t_env);
-		if (cmd_line != NULL && *cmd_line != NULL)
-			ft_free_word_tab(cmd_line);
-		else if (cmd_line != NULL)
-			free(cmd_line);
-		exit(0);
-	}
+	else if (!ft_strcmp("env", cmd[0]))
+		print_env(*env);
 }
 
 int			main(int ac, char **av, char **env)
@@ -95,23 +40,23 @@ int			main(int ac, char **av, char **env)
 
 	buf = NULL;
 	cmd_line = NULL;
-	t_env = ft_main_env(env, ac, av);
+	t_env = init_main_env(env, ac, av);
 	while (1)
 	{
-		ft_prompt(t_env);
+		print_prompt(t_env);
 		ft_exit(t_env, cmd_line, &buf);
+		if (cmd_line != NULL)
+			free_word_tab(cmd_line);
 		cmd_line = ft_split(buf);
-		if (ft_get_env_size(cmd_line) > 1)
-			ft_interpret(&cmd_line, t_env);
 		if (!*cmd_line)
 			continue ;
 		if (!ft_strcmp("exit", cmd_line[0]))
 		{
-			ft_free_word_tab(t_env);
-			ft_free_word_tab(cmd_line);
+			free_word_tab(t_env);
+			free_word_tab(cmd_line);
 			break ;
 		}
-		ft_main(&t_env, cmd_line);
+		main_part_one(&t_env, cmd_line);
 	}
 	return (0);
 }
