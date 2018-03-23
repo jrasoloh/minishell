@@ -6,17 +6,17 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 15:15:49 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/21 18:01:17 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/23 10:30:18 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char			*get_env(char **env, char *name)
+char				*get_env(char **env, char *name)
 {
-	int			i;
-	char		*label;
-	int			len;
+	int				i;
+	char			*label;
+	int				len;
 
 	i = 0;
 	label = NULL;
@@ -27,8 +27,7 @@ char			*get_env(char **env, char *name)
 		if (ft_strcmp_ref(label, env[i]) == 0)
 		{
 			free(label);
-	//		return (ft_strsub(env[i], len, ft_strlen(env[i]) - 1));
-			return(&env[i][len]);
+			return (&env[i][len]);
 		}
 		i++;
 	}
@@ -115,15 +114,18 @@ char				**switch_env_value(char ***env, char *name, char *new_env)
 {
 	int				j;
 	char			*name_env;
+	char			*old_env;
 
 	j = 0;
+	old_env = NULL;
 	name_env = ft_strjoin(name, "=");
 	while ((*env)[j])
 	{
 		if (!ft_strcmp_ref(name_env, (*env)[j]))
 		{
-			free((*env)[j]);
+			old_env = (*env)[j];
 			(*env)[j] = new_env;
+			free(old_env);
 		}
 		j++;
 	}

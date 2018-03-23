@@ -6,15 +6,15 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 14:27:08 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/21 18:01:11 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/23 10:31:28 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char			**init_new_env(void)
+char				**init_new_env(void)
 {
-	char		**t_env;
+	char			**t_env;
 
 	t_env = (char **)malloc(sizeof(char *) * (2));
 	t_env[0] = ft_strdup("SHVL=2");
@@ -22,11 +22,11 @@ char			**init_new_env(void)
 	return (t_env);
 }
 
-char			**copy_env(char **env)
+char				**copy_env(char **env)
 {
-	int			i;
-	char		**res;
-	int			len;
+	int				i;
+	char			**res;
+	int				len;
 
 	len = get_env_size(env);
 	res = NULL;
@@ -43,19 +43,19 @@ char			**copy_env(char **env)
 	return (res);
 }
 
-static char		*add_up_shlvl(char *shlvl)
+static char			*add_up_shlvl(char *shlvl)
 {
-	int			value;
+	int				value;
 
 	value = ft_atoi(shlvl) + 1;
 	return (ft_itoa(value));
 }
 
-char			**add_shlvl(char **env)
+char				**add_shlvl(char **env)
 {
-	char		*res;
-	char		*value;
-	char		**new;
+	char			*res;
+	char			*value;
+	char			**new;
 
 	res = NULL;
 	new = NULL;
@@ -70,9 +70,9 @@ char			**add_shlvl(char **env)
 	return (new);
 }
 
-char		**init_main_env(char **env, int ac, char **av)
+char				**init_main_env(char **env, int ac, char **av)
 {
-	char	**t_env;
+	char			**t_env;
 
 	(void)ac;
 	(void)av;

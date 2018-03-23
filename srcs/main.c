@@ -6,11 +6,38 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 14:09:35 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/21 17:42:07 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/23 10:44:35 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void		main_part_three(char ***env, char **cmd)
+{
+	if (!ft_strcmp("env", cmd[0]))
+	{
+		if (get_env_size(cmd) == 1)
+			print_env(*env);
+		else
+			run_execve(*env, &cmd[1]);
+	}
+	else
+		run_execve(*env, cmd);
+}
+
+void		main_part_two(char ***env, char **cmd)
+{
+	if (!ft_strcmp("cd", cmd[0]))
+	{
+		if (*env == NULL || **env == NULL)
+			error_empty_env();
+		ch_dir(env, cmd);
+	}
+	else if (!ft_strcmp("echo", cmd[0]))
+		echo(cmd);
+	else
+		main_part_three(env, cmd);
+}
 
 void		main_part_one(char ***env, char **cmd)
 {
@@ -28,8 +55,8 @@ void		main_part_one(char ***env, char **cmd)
 		else
 			error_unsetenv();
 	}
-	else if (!ft_strcmp("env", cmd[0]))
-		print_env(*env);
+	else
+		main_part_two(env, cmd);
 }
 
 int			main(int ac, char **av, char **env)
@@ -47,7 +74,7 @@ int			main(int ac, char **av, char **env)
 		ft_exit(t_env, cmd_line, &buf);
 		if (cmd_line != NULL)
 			free_word_tab(cmd_line);
-		cmd_line = ft_split(buf);
+		cmd_line = arrange_var(buf, t_env);
 		if (!*cmd_line)
 			continue ;
 		if (!ft_strcmp("exit", cmd_line[0]))

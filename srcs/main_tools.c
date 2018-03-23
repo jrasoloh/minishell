@@ -6,7 +6,7 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 14:35:56 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/21 17:09:37 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/22 14:14:25 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ void			print_prompt(char **env)
 		tmp = getcwd(NULL, 0);
 		if (((home = get_env(env, "HOME")) != NULL)
 				&& !(ft_strcmp(tmp, home)))
-		{
 			ft_putchar('~');
-			free(home);
-		}
 		else
 			ft_putstr(tmp);
 		ft_putstr(" > ");

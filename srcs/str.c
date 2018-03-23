@@ -6,16 +6,16 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 16:26:27 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/21 16:35:18 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/23 10:33:14 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int				ft_strcmp_ref(char *ref, char *str)
+int					ft_strcmp_ref(char *ref, char *str)
 {
-	int			i;
-	char		*tmp;
+	int				i;
+	char			*tmp;
 
 	i = 0;
 	if (ref && str && (ft_strlen(str) >= ft_strlen(ref)))
@@ -27,7 +27,7 @@ int				ft_strcmp_ref(char *ref, char *str)
 	return (i);
 }
 
-static int			ft_char_ok_env(char c)
+static int			char_ok_env_name(char c)
 {
 	if ((c > 47 && c < 58) || (c > 64 && c < 91) || (c > 96 && c < 123))
 		return (1);
@@ -36,16 +36,44 @@ static int			ft_char_ok_env(char c)
 	return (0);
 }
 
-int				name_ok_env(char *name)
+int					name_ok_env(char *name)
 {
-	int			i;
+	int				i;
 
 	i = 0;
 	while (name[i])
 	{
-		if (ft_char_ok_env(name[i]) == 0)
+		if (char_ok_env_name(name[i]) == 0)
 			return (0);
 		i++;
 	}
 	return (1);
+}
+
+size_t				stop_char(char *str)
+{
+	size_t			i;
+
+	i = 1;
+	while (str[i])
+	{
+		if (char_ok_env_name(str[i]) == 0)
+			return (i);
+		i++;
+	}
+	return (i);
+}
+
+char				*add_slash(char *str)
+{
+	char			*res;
+
+	res = NULL;
+	if (str[ft_strlen(str) - 1] != '/')
+	{
+		res = ft_strjoin(str, "/");
+		free(str);
+		return (res);
+	}
+	return (str);
 }

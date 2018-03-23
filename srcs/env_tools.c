@@ -6,7 +6,7 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 14:37:57 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/21 15:28:26 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/22 12:34:26 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void			free_word_tab(char **tab)
 		i++;
 	}
 	free(tab);
+	tab = NULL;
 }
 
 int				get_env_size(char **env)

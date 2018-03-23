@@ -1,46 +1,51 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2018/03/05 12:24:55 by jrasoloh          #+#    #+#              #
-#    Updated: 2018/03/21 17:04:43 by jrasoloh         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   str.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/21 16:26:27 by jrasoloh          #+#    #+#             */
+/*   Updated: 2018/03/21 16:35:18 by jrasoloh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-NAME 		= minishell
+#include "../includes/minishell.h"
 
-CFLAGS 		= -g -Wall -Wextra -Werror
+int				ft_strcmp_ref(char *ref, char *str)
+{
+	int			i;
+	char		*tmp;
 
-INCLUDES 	= includes/minishell.h
+	i = 0;
+	if (ref && str && (ft_strlen(str) >= ft_strlen(ref)))
+	{
+		tmp = ft_strsub(str, 0, ft_strlen(ref));
+		i = ft_strcmp(tmp, ref);
+		free(tmp);
+	}
+	return (i);
+}
 
-SRCS 		= srcs/main.c\
-			  srcs/env.c\
-			  srcs/env_tools.c\
-			  srcs/init_env.c\
-			  srcs/main_tools.c\
-			  srcs/split.c\
-			  srcs/str.c\
-			  srcs/error.c\
+static int			ft_char_ok_env(char c)
+{
+	if ((c > 47 && c < 58) || (c > 64 && c < 91) || (c > 96 && c < 123))
+		return (1);
+	if (c == 45 || c == 95)
+		return (1);
+	return (0);
+}
 
-OBJ 		= $(SRCS:.c=.o)
+int				name_ok_env(char *name)
+{
+	int			i;
 
-all 		: $(NAME) $(OBJ) $(SRCS)
-
-$(NAME) 	: $(OBJ)
-			make -C Libft
-			gcc $(CFLAGS) $(SRCS) Libft/libft.a -I$(INCLUDES) -o $(NAME)
-
-clean 		:
-			make clean -C Libft
-			rm -f $(OBJ)
-
-fclean 		: clean
-			make fclean -C libft
-			rm -f $(NAME)
-
-re 			: fclean all
-
-.PHONY : clean fclean re
+	i = 0;
+	while (name[i])
+	{
+		if (ft_char_ok_env(name[i]) == 0)
+			return (0);
+		i++;
+	}
+	return (1);
+}
