@@ -6,29 +6,43 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 14:35:56 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/23 21:01:56 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/23 21:34:25 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+static void		put_home_path(char *home, char *path)
+{
+	if ((ft_strlen(home) == ft_strlen(path)) && !(ft_strcmp(home, path)))
+		ft_putchar('~');
+	else if ((ft_strlen(path) > ft_strlen(home))
+			&& ft_strcmp_ref(home, path) == 0)
+	{
+		ft_putchar('~');
+		ft_putstr(&path[ft_strlen(home)]);
+	}
+	else
+		ft_putstr(path);
+}
+
 void			print_prompt(char **env)
 {
-	char		*tmp;
+	char		*pwd;
 	char		*home;
 
-	tmp = NULL;
+	pwd = NULL;
 	home = NULL;
 	if (env != NULL && *env != NULL)
 	{
-		tmp = getcwd(NULL, 0);
+		pwd = getcwd(NULL, 0);
 		if (((home = get_env(env, "HOME")) != NULL)
-				&& !(ft_strcmp(tmp, home)))
-			ft_putchar('~');
+				&& ft_strcmp_ref(home, pwd) == 0)
+			put_home_path(home, pwd);
 		else
-			ft_putstr(tmp);
+			ft_putstr(pwd);
 		ft_putstr(" > ");
-		free(tmp);
+		free(pwd);
 	}
 	else
 		ft_putstr("$> ");
