@@ -6,7 +6,7 @@
 #    By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/18 16:32:19 by jrasoloh          #+#    #+#              #
-#    Updated: 2017/07/19 15:05:58 by jrasoloh         ###   ########.fr        #
+#    Updated: 2018/03/23 21:06:36 by jrasoloh         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -78,7 +78,7 @@ OBJ_NAME	= $(SRC:.c=.o)
 all		:		$(NAME)
 
 $(NAME)	:
-		gcc -c $(SRC)
+		gcc -c $(SRC) $(CFLAGS)
 		ar rc $(NAME) $(OBJ_NAME)
 		ranlib $(NAME)
 

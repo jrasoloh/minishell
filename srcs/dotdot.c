@@ -6,7 +6,7 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 14:22:28 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/23 10:29:02 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/23 20:20:04 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char				*skip_dotdot(char *str, size_t *i)
 	if (no_parent(str) == 1)
 	{
 		*i = 0;
-		return ("/");
+		return (ft_strdup("/"));
 	}
 	head = ft_strsub(str, 0, *i - 2);
 	parent = get_parent(head);
@@ -44,7 +44,7 @@ static char				*rid_of_dotdot(char *path)
 	char				*pp;
 
 	if (ft_strlen(path) > 2 && no_parent(path) == 1)
-		return ("/");
+		return (ft_strdup("/"));
 	pp = ft_strdup(path);
 	i = 3;
 	while (i < ft_strlen(pp) && ft_strlen(pp) > 3 && !(no_parent(pp)))
@@ -56,7 +56,7 @@ static char				*rid_of_dotdot(char *path)
 			if (ft_strlen(pp) > 2 && no_parent(pp) == 1)
 			{
 				free(pp);
-				return ("/");
+				return (ft_strdup("/"));
 			}
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 13:46:03 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/23 10:28:33 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/23 20:20:10 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static void		ch_dir_part_six(char ***env, char **cmd)
 		error_chdir(cmd[1]);
 	else
 		ch_dir_env(env, valid_path, oldpwd);
-	free(valid_path);
+	if (valid_path)
+		free(valid_path);
 	free(oldpwd);
 }
 
@@ -44,7 +45,8 @@ static void		ch_dir_part_five(char ***env, char **cmd)
 		oldpwd = getcwd(NULL, 0);
 		if (chdir(valid_path) != -1)
 			ch_dir_env(env, valid_path, oldpwd);
-		free(valid_path);
+		if (valid_path)
+			free(valid_path);
 		free(oldpwd);
 	}
 	else
@@ -98,7 +100,8 @@ static void		ch_dir_part_three(char ***env, char **cmd)
 			ft_putendl("Access denied");
 		else
 			ch_dir_env(env, valid_path, oldpwd);
-		free(valid_path);
+		if (valid_path)
+			free(valid_path);
 		free(oldpwd);
 	}
 	else

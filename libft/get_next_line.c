@@ -6,7 +6,7 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/18 15:47:55 by jrasoloh          #+#    #+#             */
-/*   Updated: 2017/11/01 21:09:46 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/23 20:50:51 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static int	multi_gnl(char **line, char *buff, int size, int *len)
 {
 	char	*tmp;
 
+	if (*line)
+		free(*line);
 	if (*len == -1)
 	{
 		if ((*line = (char *)malloc(sizeof(char) * size + 1)) == NULL)
@@ -63,7 +65,7 @@ static int	read_file(char **line, char **first, int *len, int *ret)
 int			get_next_line(const int fd, char **line)
 {
 	static t_b	tab;
-	char		*buff;
+	static char	*buff = NULL;
 	int			ret;
 	int			len;
 
@@ -71,6 +73,8 @@ int			get_next_line(const int fd, char **line)
 	if (tab.ret2 != 0)
 		if ((tab.res = read_file(line, &tab.first, &len, &tab.ret2)) == 1)
 			return (tab.res);
+	if (buff)
+		free(buff);
 	if ((buff = (char *)malloc(sizeof(char) * BUFF_SIZE + 1)) == NULL)
 		return (-1);
 	while ((ret = read(fd, buff, BUFF_SIZE)) > 0)

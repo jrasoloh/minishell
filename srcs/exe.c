@@ -6,7 +6,7 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/23 10:34:53 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/23 10:45:24 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/23 20:08:00 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,33 +67,45 @@ char			**get_path_tab(char **env, char *path)
 	return (tmp2);
 }
 
-char			*get_exe_path(char *path, char **path_tab)
+static char		*slash_n_join(char *home, char *tail)
 {
 	char		*tmp;
 	char		*tmp2;
-	int			i;
 
 	tmp = NULL;
 	tmp2 = NULL;
+	if (home[ft_strlen(home) - 1] != '/')
+		tmp = ft_strjoin(home, "/");
+	else
+		tmp = ft_strdup(home);
+	tmp2 = ft_strjoin(tmp, tail);
+	free(tmp);
+	return (tmp2);
+}
+
+char			*get_exe_path(char *path, char **path_tab)
+{
+	char		*exe_path;
+	int			i;
+
+	exe_path = NULL;
 	i = 0;
 	if (path_tab == NULL)
 		return (NULL);
 	while (path_tab[i])
 	{
-		tmp = ft_strjoin(path_tab[i], "/");
-		tmp2 = ft_strjoin(tmp, path);
-		free(tmp);
-		if (access(tmp2, F_OK) != -1)
+		exe_path = slash_n_join(path_tab[i], path);
+		if (access(exe_path, F_OK) != -1)
 		{
-			if (access(tmp2, X_OK) != -1)
-				return (tmp2);
+			if (access(exe_path, X_OK) != -1)
+				return (exe_path);
 			else
 			{
-				free(tmp2);
+				free(exe_path);
 				return (NULL);
 			}
 		}
-		free(tmp2);
+		free(exe_path);
 		i++;
 	}
 	return (NULL);

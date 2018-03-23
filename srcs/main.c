@@ -6,7 +6,7 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 14:09:35 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/23 10:44:35 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/23 21:05:10 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,7 @@ int			main(int ac, char **av, char **env)
 			continue ;
 		if (!ft_strcmp("exit", cmd_line[0]))
 		{
-			free_word_tab(t_env);
-			free_word_tab(cmd_line);
+			free_all(buf, t_env, cmd_line);
 			break ;
 		}
 		main_part_one(&t_env, cmd_line);

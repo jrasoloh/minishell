@@ -6,7 +6,7 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 14:35:56 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/22 14:14:25 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/23 21:01:56 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,12 @@ void			ft_exit(char **t_env, char **cmd_line, char **buf)
 			free(cmd_line);
 		exit(0);
 	}
+}
+
+void			free_all(char *buf, char **env, char **cmd)
+{
+	if (buf)
+		free(buf);
+	free_word_tab(env);
+	free_word_tab(cmd);
 }

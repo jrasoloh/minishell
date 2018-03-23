@@ -6,7 +6,7 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 15:16:08 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/23 10:32:12 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/23 20:51:03 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,14 @@ char			*get_parent(char *path)
 	int			end;
 
 	if (ft_strlen(path) == 1 && path[0] == '/')
-		return ("/");
+		return (ft_strdup("/"));
 	end = ft_strlen(path) - 1;
 	if (path[end] == '/')
 		end--;
 	while (end >= 0 && path[end] != '/')
 		end--;
+	if (end <= 0)
+		return (ft_strdup("/"));
 	return (ft_strsub(path, 0, end + 1));
 }
 
@@ -43,7 +45,10 @@ char			*join_n_shorten(char *home, char *tail)
 	tmp = NULL;
 	tmp2 = NULL;
 	res = NULL;
-	tmp = ft_strjoin(home, "/");
+	if (home[ft_strlen(home) - 1] != '/')
+		tmp = ft_strjoin(home, "/");
+	else
+		tmp = ft_strdup(home);
 	tmp2 = add_slash(ft_strjoin(tmp, tail));
 	free(tmp);
 	res = shorten_path(tmp2);
