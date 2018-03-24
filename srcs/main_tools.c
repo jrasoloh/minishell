@@ -6,7 +6,7 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 14:35:56 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/23 21:34:25 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/24 13:26:07 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ void			ft_exit(char **t_env, char **cmd_line, char **buf)
 {
 	if (get_next_line(0, buf) == 0)
 	{
-		if (buf)
-			free_word_tab(buf);
+		if (*buf)
+			free(*buf);
 		free_word_tab(t_env);
 		if (cmd_line != NULL && *cmd_line != NULL)
 			free_word_tab(cmd_line);
