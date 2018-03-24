@@ -6,7 +6,7 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 11:06:55 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/24 12:45:19 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/24 13:19:23 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void			interpret_bis(char **cmd, char **env)
 	old = NULL;
 	stop = 0;
 	if (ft_strlen(*cmd) > 1 && (*cmd)[0] == '$' 
-			&& (check_elt_in_env(env, *cmd) == 1))
+			&& (check_elt_in_env(env, &(*cmd)[1]) == 1))
 	{
 		if ((stop = stop_char(*cmd)) == ft_strlen(*cmd))
 		{

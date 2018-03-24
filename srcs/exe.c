@@ -6,7 +6,7 @@
 /*   By: jrasoloh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/23 10:34:53 by jrasoloh          #+#    #+#             */
-/*   Updated: 2018/03/23 20:08:00 by jrasoloh         ###   ########.fr       */
+/*   Updated: 2018/03/24 13:47:42 by jrasoloh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,14 @@ void			run_execve(char **env, char **cmd)
 	char		*path;
 	char		**path_tab;
 
-	if (check_elt_in_env(env, "PATH") == 1)
+	if (access(cmd[0], F_OK) != -1)
+	{
+		if (access(cmd[0], X_OK) != -1)
+			run_fork(cmd[0], cmd, env);
+		else
+			ft_putendl("Permission denied");
+	}
+	else if (check_elt_in_env(env, "PATH") == 1)
 	{
 		path = NULL;
 		path_tab = get_path_tab(env, "PATH");
@@ -41,13 +48,6 @@ void			run_execve(char **env, char **cmd)
 		else
 			ft_putendl("Command not found");
 		free_word_tab(path_tab);
-	}
-	else if (access(cmd[0], F_OK) != -1)
-	{
-		if (access(cmd[0], X_OK) != -1)
-			run_fork(cmd[0], cmd, env);
-		else
-			ft_putendl("Permission denied");
 	}
 	else
 		ft_putendl("Command not found");
